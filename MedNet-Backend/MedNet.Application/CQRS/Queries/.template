@@ -1,0 +1,17 @@
+﻿
+using QUERY_NAMEQueryResponse = QUERY_RESPONSE;
+
+public class QUERY_NAMEQuery : IRequest<QUERY_NAMEQueryResponse>
+{
+   public class QUERY_NAMEQueryHandler : IRequestHandler<QUERY_NAMEQuery, QUERY_NAMEQueryResponse>
+   {
+      public QUERY_NAMEQueryHandler()
+      {
+      }
+
+      public async Task<QUERY_NAMEQueryResponse> Handle(QUERY_NAMEQuery request, CancellationToken cancellationToken)
+      {
+        return result;
+      }
+   }
+}

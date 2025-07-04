@@ -1,0 +1,17 @@
+﻿
+using COMMAND_NAMECommandResponse = COMMAND_RESPONSE;
+
+public class COMMAND_NAMECommand : IRequest<COMMAND_NAMECommandResponse>
+{
+   public class COMMAND_NAMECommandHandler : IRequestHandler<COMMAND_NAMECommand, COMMAND_NAMECommandResponse>
+   {
+      public COMMAND_NAMECommandHandler()
+      {
+      }
+
+      public async Task<COMMAND_NAMECommandResponse> Handle(COMMAND_NAMECommand request, CancellationToken cancellationToken)
+      {
+        return result;
+      }
+   }
+}
