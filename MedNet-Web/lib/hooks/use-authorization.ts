@@ -23,7 +23,7 @@ export default function useAuthorization() {
         if (!cancelled) {
           setAuthorized(result.ok);
         }
-      } catch (err) {
+      } catch {
         if (!cancelled) {
           setAuthorized(false);
         }

@@ -26,7 +26,7 @@ async function tryRefreshToken(): Promise<string | null> {
 
     const data = await res.json();
     return data.access_token ?? null;
-  } catch (err) {
+  } catch {
     return null;
   }
 }

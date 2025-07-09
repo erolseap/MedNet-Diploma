@@ -1,16 +1,15 @@
 "use client";
 
-import { registerWithCredentials } from "@/lib/api/pub/auth";
 import { fetchGeneratableUserTests, generateUserTest } from "@/lib/api/pub/user-tests";
 import QuestionsSetWithoutQuestionsDto from "@/lib/dtos/questions-set-without-questions.dto";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { FormEvent, useEffect, useState } from "react";
+import FailAlert from "./fail-alert";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import FailAlert from "./fail-alert";
 
 export default function UserTestGenerationDialog({
   onSubmit,
@@ -51,7 +50,7 @@ export default function UserTestGenerationDialog({
     if (onSubmit != null) {
       onSubmit(questionsSetId, amountOfQuestions);
     } else if (onCompleted != null) {
-      var response = await generateUserTest({
+      let response = await generateUserTest({
         setId: questionsSetId,
         numOfQuestions: amountOfQuestions
       });

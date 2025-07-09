@@ -1,12 +1,11 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Card, CardContent } from './ui/card'
-import { Button } from './ui/button'
-import Markdown from 'react-markdown'
-import UserTestSessionQuestionDto from '@/lib/dtos/user-test-session-question.dto'
-import { shuffleArray } from '@/lib/utils'
 import { answerUserTestQuestion } from '@/lib/api/pub/user-tests'
+import UserTestSessionQuestionDto from '@/lib/dtos/user-test-session-question.dto'
+import { useState } from 'react'
+import Markdown from 'react-markdown'
+import { Button } from './ui/button'
+import { Card, CardContent } from './ui/card'
 
 export default function UserTestQuestion({
   className,
