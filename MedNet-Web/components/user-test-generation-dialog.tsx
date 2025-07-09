@@ -50,7 +50,7 @@ export default function UserTestGenerationDialog({
     if (onSubmit != null) {
       onSubmit(questionsSetId, amountOfQuestions);
     } else if (onCompleted != null) {
-      let response = await generateUserTest({
+      const response = await generateUserTest({
         setId: questionsSetId,
         numOfQuestions: amountOfQuestions
       });
