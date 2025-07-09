@@ -27,11 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`} style={{ backgroundImage: "radial-gradient(circle, var(--secondary) 1px, transparent 1px)", backgroundSize: "15px 15px" }}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`} style={{ backgroundImage: "radial-gradient(circle, var(--background-dots) 1px, transparent 1px)", backgroundSize: "15px 15px" }}
       >
-        <div className="flex flex-col justify-center items-center">
-          <Header className="max-w-6xl mt-3 w-full pb-3" />
-          <main className="block max-w-5xl items-center gap-3 w-full">
+        <div className="flex flex-col justify-center items-center px-2 max-sm:px-1">
+          <Header className="max-w-6xl w-full mt-3 mb-4 px-2 max-sm:px-0" />
+          <main className="block max-w-5xl items-center w-full h-full">
             {children}
           </main>
         </div>

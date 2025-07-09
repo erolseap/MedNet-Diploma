@@ -1,15 +1,31 @@
-export type ApiResult<T = void> =
-  T extends void
-  ? { error: null; ok: true } | { error: string; ok: false }
-  : { data: T; error: null; ok: true } | { data: null; error: string; ok: false };
+import { getAccessToken } from "./auth";
 
-export async function api<TResponse = void>(
+type KnownApiError = 'unauthorized' | 'forbidden' | 'not_found';
+type ApiError = KnownApiError | (string & {});
+
+type ApiResult<T = void> =
+  T extends void
+  ? { error: null; ok: true } | { error: ApiError; ok: false }
+  : { data: T; error: null; ok: true } | { data: null; error: ApiError; ok: false };
+
+async function api<TResponse = void>(
   path: string,
-  params?: Record<string, any>,
-  type: string = "GET",
-  cache: number = 0
+  {
+    params,
+    type = 'GET',
+    cache = 0,
+    token
+  }: {
+    params?: Record<string, any>;
+    type?: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
+    cache?: number;
+    token?: string|null;
+  } = {}
 ): Promise<ApiResult<TResponse>> {
   if (!path.startsWith('/')) path = `/${path}`;
+
+  const isClient = typeof window !== 'undefined';
+  const finalToken = token === null ? undefined : (token ?? (isClient ? getAccessToken() : undefined));
 
   const passJsonBody = params != null && type !== 'GET';
 
@@ -31,16 +47,26 @@ export async function api<TResponse = void>(
       headers: {
         Accept: "application/json",
         ...(passJsonBody && { "Content-Type": "application/json" }),
+        ...(finalToken && { Authorization: `Bearer ${finalToken}` }),
       },
       body: passJsonBody ? JSON.stringify(params) : undefined,
       next: { revalidate: cache },
-    });
+    })
 
     const resString = await res.text()
     const resJson = resString.length > 0 ? JSON.parse(resString) : {}
 
     if (!res.ok) {
-      throw `Unknown response status code: '${res.status}', with message: '${resJson["details"] ?? resJson["title"] ?? resString}`
+      switch (res.status) {
+        case 401:
+          return { data: null, error: 'unauthorized', ok: false } as ApiResult<TResponse>
+        case 403:
+          return { data: null, error: 'forbidden', ok: false } as ApiResult<TResponse>
+        case 404:
+          return { data: null, error: 'not_found', ok: false } as ApiResult<TResponse>
+        default:
+          throw `Unknown response status code: '${res.status}', with message: '${resJson["details"] ?? resJson["title"] ?? resString}`
+      }
     }
     return { data: resJson as TResponse, error: null, ok: true } as ApiResult<TResponse>
   } catch (e) {
@@ -51,3 +77,8 @@ export async function api<TResponse = void>(
   }
 }
 
+export {
+  type ApiResult,
+  
+  api
+}

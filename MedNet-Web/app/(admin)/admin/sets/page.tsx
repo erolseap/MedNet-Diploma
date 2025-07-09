@@ -8,14 +8,15 @@ import { Input } from "@/components/ui/input"
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog"
 import { Label } from "@radix-ui/react-label"
 import { FormEvent, useEffect, useState } from "react"
-import { createQuestionsSet, fetchQuestionsSets, QuestionsSetListEntry } from "@/lib/api/sets"
+import { createQuestionsSet, fetchQuestionsSets } from "@/lib/api/admin/sets"
 import { toast } from "sonner"
 import { Skeleton } from "@/components/ui/skeleton"
+import QuestionsSetWithoutQuestionsDto from "@/lib/dtos/questions-set-without-questions.dto"
 
 export const dynamicParams = true;
 
 export default function Page() {
-  const [questionsSets, setQuestionsSets] = useState<QuestionsSetListEntry[]|undefined>(undefined)
+  const [questionsSets, setQuestionsSets] = useState<QuestionsSetWithoutQuestionsDto[]|undefined>(undefined)
 
   async function handleCreateForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -23,8 +24,7 @@ export default function Page() {
     const formData = new FormData(event.currentTarget)
     const name = formData.get('name') as string
 
-    const response = await createQuestionsSet(name)
-    console.log(response)
+    const response = await createQuestionsSet({ name })
     if (response.ok) {
       toast(`Successfully created a questions set named as '${name}'.`)
       setTimeout(function () {
@@ -35,7 +35,9 @@ export default function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetchQuestionsSets()
+      const response = await fetchQuestionsSets({
+        token: 'fasf'
+      })
       if (response.ok) {
         setQuestionsSets(response.data)
       }
