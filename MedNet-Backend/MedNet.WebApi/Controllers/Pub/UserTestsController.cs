@@ -58,7 +58,8 @@ public sealed class UserTestsController : ControllerBase
         var command = new GenerateUserTestSessionCommand()
         {
             QuestionsSetId = data.SetId.Value,
-            UserId = await GetUserEntityId()
+            UserId = await GetUserEntityId(),
+            NumOfQuestions = data.NumOfQuestions
         };
         var result = await _mediator.Send(command, cancellationToken);
         if (!result.IsSuccess)

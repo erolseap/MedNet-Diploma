@@ -42,10 +42,10 @@ public sealed class UserTestQuestionController : EntityControllerBase<UserTestSe
     }
     
     [HttpPost("answer", Name = "Answer a specific test question")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserTestSessionQuestionDto), StatusCodes.Status200OK)]
     [WithEntityInclude<UserTestSessionQuestion>(nameof(UserTestSessionQuestion.Question))]
     [WithEntityInclude<UserTestSessionQuestion>(nameof(UserTestSessionQuestion.Question), nameof(Question.Answers))]
-    [TrackedEntity<UserTestSession>]
+    [TrackedEntity<UserTestSessionQuestion>]
     public async Task<IActionResult> AnswerAsync(
         [FromBody] UserTestQuestionControllerAnswerDto data,
         CancellationToken cancellationToken = default)

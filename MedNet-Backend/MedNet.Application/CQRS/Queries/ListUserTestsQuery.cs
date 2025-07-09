@@ -48,7 +48,9 @@ public class ListUserTestsQuery : IRequest<ListUserTestsQueryResponse>
                 specification.Take(request.Limit.Value);
             }
             specification.AddInclude(s => s.Questions); // required for number of questions and count of correct answers
-            
+            specification.AddInclude(s => s.QuestionsSet!); // required for dto
+            specification.AddInclude(nameof(UserTestSession.Questions), nameof(UserTestSessionQuestion.Answer)); // required for dto
+
             var sessions = await _repository
                 .ListAsync(specification, cancellationToken);
          

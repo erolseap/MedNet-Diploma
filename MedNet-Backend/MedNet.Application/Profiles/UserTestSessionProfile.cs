@@ -9,7 +9,11 @@ public class UserTestSessionProfile : Profile
     public UserTestSessionProfile()
     {
         CreateMap<UserTestSession, UserTestSessionDto>()
-            .ConstructUsing(src => new UserTestSessionDto(src.Id, src.QuestionsSetId, src.CreationDate,
-                src.Questions.Count, src.Questions.Count(q => q.IsCorrectlyAnswered)));
+            .ConstructUsing(src => new UserTestSessionDto(src.Id, null!, src.CreationDate,
+                src.Questions.Count, src.Questions.Count(q => q.IsCorrectlyAnswered)))
+            .ForMember(dest => dest.ParentQuestionsSet,
+                opt => opt.MapFrom((src, _, _, context) =>
+                    context.Mapper.Map<QuestionsSetWithNumOfQuestionsDto>(src.QuestionsSet))
+            );
     }
 }

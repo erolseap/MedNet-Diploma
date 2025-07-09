@@ -25,7 +25,9 @@ public class GetUserTestByIdQuery : IRequest<UserTestSessionDto?>
         public async Task<UserTestSessionDto?> Handle(GetUserTestByIdQuery request, CancellationToken cancellationToken)
         {
             var specification = new GetEntityByIdSpecification<UserTestSession>(request.Id);
-            specification.AddInclude(qs => qs.Questions); // required for number of questions
+            specification.AddInclude(s => s.Questions); // required for number of questions
+            specification.AddInclude(s => s.QuestionsSet!); // required for dto
+            specification.AddInclude(nameof(UserTestSession.Questions), nameof(UserTestSessionQuestion.Answer)); // required for dto
 
             var session = await _repository.SingleOrDefaultAsync(specification, cancellationToken);
             return _mapper.Map<UserTestSessionDto?>(session);
