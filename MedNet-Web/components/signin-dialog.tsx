@@ -36,7 +36,7 @@ export default function SigninDialog({
     if (onSubmit != null) {
       onSubmit(email, password);
     } else if (onCompleted != null) {
-      var authorizationResult = await loginWithCredentials({
+      const authorizationResult = await loginWithCredentials({
         email: email,
         password: password
       });

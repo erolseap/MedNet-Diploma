@@ -1,15 +1,15 @@
 "use client";
 
-import { Label } from "./ui/label";
+import { registerWithCredentials } from "@/lib/api/pub/auth";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { AlertCircleIcon } from "lucide-react";
 import Link from "next/link";
+import { FormEvent, useState } from "react";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Input } from "./ui/input";
-import * as DialogPrimitive from "@radix-ui/react-dialog"
-import { FormEvent, useState } from "react";
-import { registerWithCredentials } from "@/lib/api/pub/auth";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { AlertCircleIcon, Terminal } from "lucide-react";
+import { Label } from "./ui/label";
 
 export default function SignupDialog({
   onSubmit,
@@ -41,7 +41,7 @@ export default function SignupDialog({
     if (onSubmit != null) {
       onSubmit(email, password);
     } else if (onCompleted != null) {
-      var authorizationResult = await registerWithCredentials({
+      const authorizationResult = await registerWithCredentials({
         email: email,
         password: password
       });
@@ -93,7 +93,7 @@ export default function SignupDialog({
                   <p>Please verify your email and password and try again.</p>
                   <ul className="list-inside list-disc text-sm">
                     <li>Passwords must have at least one non alphanumeric character.</li>
-                    <li>Passwords must have at least one uppercase ('A'-'Z').</li>
+                    <li>Passwords must have at least one uppercase (A to Z).</li>
                     <li>Passwords must be at least 6 characters long.</li>
                     <li>E-mail address must be unique.</li>
                   </ul>

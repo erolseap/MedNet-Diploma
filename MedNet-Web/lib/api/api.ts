@@ -16,7 +16,7 @@ async function api<TResponse = void>(
     cache = 0,
     token
   }: {
-    params?: Record<string, string|number|object>;
+    params?: Record<string, unknown>;
     type?: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
     cache?: number;
     token?: string|null;

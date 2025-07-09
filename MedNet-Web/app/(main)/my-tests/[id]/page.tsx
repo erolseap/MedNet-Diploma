@@ -16,10 +16,6 @@ export default function Page() {
   const params = useParams();
   const id = Number(params.id);
 
-  if (!Number.isFinite(id) || id <= 0) {
-    return notFound();
-  }
-
   const [testData, setTestData] = useState<UserTestSessionDto | undefined | null>(undefined);
   const [testQuestions, setTestQuestions] = useState<UserTestSessionQuestionDto[] | undefined>(undefined);
   const [displayMode, setDisplayMode] = useState<"all" | "unanswered-only" | "wrong-only" | "correct-only">("all");
@@ -58,15 +54,19 @@ export default function Page() {
     fetchTestQuestions();
   }, []);
 
-  if (testData === null) {
-    return notFound();
-  }
-
   async function generateMoreQuestions() {
-    var result = await generateMoreUserTestQuestions({ id: id });
+    const result = await generateMoreUserTestQuestions({ id: id });
     if (result.ok) {
       fetchTestQuestions();
     }
+  }
+
+  if (!Number.isFinite(id) || id <= 0) {
+    return notFound();
+  }
+
+  if (testData === null) {
+    return notFound();
   }
 
   return (

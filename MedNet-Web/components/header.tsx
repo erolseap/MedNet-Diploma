@@ -1,14 +1,14 @@
 'use client'
 
+import useAuthorization from '@/lib/hooks/use-authorization'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import SigninDialog from './signin-dialog'
 import SignupDialog from './signup-dialog'
 import { Button } from './ui/button'
 import { Card, CardContent } from './ui/card'
-import useAuthorization from '@/lib/hooks/use-authorization'
 
 export default function Header({
   className,
